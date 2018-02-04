@@ -20,13 +20,16 @@ license {
 repositories {
   mavenLocal()
   mavenCentral()
+  maven {
+    url 'https://oss.sonatype.org/content/groups/public/'
+  }
 }
 
 dependencies {
   compile 'com.github.ben-manes.caffeine:caffeine:2.5.2'
   compile 'com.google.code.gson:gson:2.8.0'
   compile 'com.google.guava:guava:21.0'
-  compile 'com.squareup.okhttp3:okhttp:3.9.0'
+  compile 'com.squareup.okhttp3:okhttp:3.10.0-SNAPSHOT'
   compile 'net.kyori:blizzard:1.0.4-JDK8144185'
   testCompile 'junit:junit:4.12'
 }
