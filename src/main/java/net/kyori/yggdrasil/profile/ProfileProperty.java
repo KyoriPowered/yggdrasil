@@ -24,8 +24,8 @@
 package net.kyori.yggdrasil.profile;
 
 import com.google.common.base.MoreObjects;
-import net.kyori.blizzard.NonNull;
-import net.kyori.blizzard.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A profile property.
@@ -38,8 +38,7 @@ public interface ProfileProperty {
    * @param value the value
    * @return the profile property
    */
-  @NonNull
-  static ProfileProperty of(@NonNull final String name, @NonNull final String value) {
+  static @NonNull ProfileProperty of(final @NonNull String name, final @NonNull String value) {
     return new Impl(name, value);
   }
 
@@ -51,8 +50,7 @@ public interface ProfileProperty {
    * @param signature the signature
    * @return the profile property
    */
-  @NonNull
-  static ProfileProperty of(@NonNull final String name, @NonNull final String value, @Nullable final String signature) {
+  static @NonNull ProfileProperty of(final @NonNull String name, final @NonNull String value, final @Nullable String signature) {
     return new Impl(name, value, signature);
   }
 
@@ -61,24 +59,21 @@ public interface ProfileProperty {
    *
    * @return the name
    */
-  @NonNull
-  String name();
+  @NonNull String name();
 
   /**
    * Gets the value of this profile property.
    *
    * @return the value
    */
-  @NonNull
-  String value();
+  @NonNull String value();
 
   /**
    * Gets the signature of this profile property.
    *
    * @return the signature
    */
-  @Nullable
-  String signature();
+  @Nullable String signature();
 
   /**
    * A simple implementation of a profile property.
@@ -86,33 +81,30 @@ public interface ProfileProperty {
   class Impl implements ProfileProperty {
     private final String name;
     private final String value;
-    private final String signature;
+    private final @Nullable String signature;
 
-    protected Impl(@NonNull final String name, @NonNull final String value) {
+    protected Impl(final @NonNull String name, final @NonNull String value) {
       this(name, value, null);
     }
 
-    protected Impl(@NonNull final String name, @NonNull final String value, @Nullable final String signature) {
+    protected Impl(final @NonNull String name, final @NonNull String value, final @Nullable String signature) {
       this.name = name;
       this.value = value;
       this.signature = signature;
     }
 
-    @NonNull
     @Override
-    public String name() {
+    public @NonNull String name() {
       return this.name;
     }
 
-    @NonNull
     @Override
-    public String value() {
+    public @NonNull String value() {
       return this.value;
     }
 
-    @Nullable
     @Override
-    public String signature() {
+    public @Nullable String signature() {
       return this.signature;
     }
 

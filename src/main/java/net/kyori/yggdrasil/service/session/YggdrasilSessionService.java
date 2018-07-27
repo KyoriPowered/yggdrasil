@@ -29,8 +29,6 @@ import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import net.kyori.blizzard.NonNull;
-import net.kyori.blizzard.Nullable;
 import net.kyori.yggdrasil.exception.AuthenticationException;
 import net.kyori.yggdrasil.exception.AuthenticationUnavailableException;
 import net.kyori.yggdrasil.profile.Profile;
@@ -45,6 +43,8 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -65,13 +65,12 @@ public class YggdrasilSessionService implements SessionService {
     .create();
   private final OkHttpClient client;
 
-  public YggdrasilSessionService(@NonNull final OkHttpClient client) {
+  public YggdrasilSessionService(final @NonNull OkHttpClient client) {
     this.client = client;
   }
 
-  @Nullable
   @Override
-  public Profile hasJoined(@NonNull final Profile profile, @NonNull final String serverId, @Nullable final InetAddress address) throws AuthenticationException {
+  public @Nullable Profile hasJoined(final @NonNull Profile profile, final @NonNull String serverId, final @Nullable InetAddress address) throws AuthenticationException {
     final HttpUrl.Builder url = BASE_URL.newBuilder()
       .addPathSegment("hasJoined")
       .addQueryParameter("username", profile.name())
@@ -80,7 +79,7 @@ public class YggdrasilSessionService implements SessionService {
       url.addQueryParameter("ip", address.getHostAddress());
     }
 
-    @Nullable final HasJoinedResponse response = this.get(url.build(), HasJoinedResponse.class);
+    final @Nullable HasJoinedResponse response = this.get(url.build(), HasJoinedResponse.class);
     if(response == null || response.id() == null) {
       return null;
     }
@@ -92,9 +91,8 @@ public class YggdrasilSessionService implements SessionService {
     return result;
   }
 
-  @NonNull
   @Override
-  public Profile profile(@NonNull final Profile profile, final boolean secure) throws AuthenticationException {
+  public @NonNull Profile profile(final @NonNull Profile profile, final boolean secure) throws AuthenticationException {
     if(profile.id() == null) {
       return profile;
     }
@@ -111,7 +109,7 @@ public class YggdrasilSessionService implements SessionService {
       .addPathSegment("profile")
       .addPathSegment(UUIDTypeAdapter.string(profile.id()))
       .addQueryParameter("unsigned", String.valueOf(!secure));
-    @Nullable final ProfileResponse response = this.get(url.build(), ProfileResponse.class);
+    final @Nullable ProfileResponse response = this.get(url.build(), ProfileResponse.class);
     if(response == null) {
       return profile;
     }
@@ -132,7 +130,7 @@ public class YggdrasilSessionService implements SessionService {
 
   @Nullable
   private <T extends Response> T request(final Request request, final Class<T> responseClass) throws AuthenticationException {
-    @Nullable final T response;
+    final @Nullable T response;
     try(final ResponseBody body = this.client.newCall(request).execute().body()) {
       if(body == null) {
         throw new AuthenticationUnavailableException("Could not resolve a response");

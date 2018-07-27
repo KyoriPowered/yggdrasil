@@ -23,10 +23,10 @@
  */
 package net.kyori.yggdrasil.service.session;
 
-import net.kyori.blizzard.NonNull;
-import net.kyori.blizzard.Nullable;
 import net.kyori.yggdrasil.exception.AuthenticationException;
 import net.kyori.yggdrasil.profile.Profile;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.net.InetAddress;
 
@@ -43,8 +43,7 @@ public interface SessionService {
    * @return the filled profile
    * @throws AuthenticationException if an exception occurs while checking
    */
-  @Nullable
-  Profile hasJoined(@NonNull final Profile profile, @NonNull final String serverId, @Nullable final InetAddress address) throws AuthenticationException;
+  @Nullable Profile hasJoined(final @NonNull Profile profile, final @NonNull String serverId, final @Nullable InetAddress address) throws AuthenticationException;
 
   /**
    * Gets a filled profile.
@@ -54,6 +53,5 @@ public interface SessionService {
    * @return the filled profile
    * @throws AuthenticationException if an exception occurs while filling
    */
-  @NonNull
-  Profile profile(@NonNull final Profile profile, final boolean secure) throws AuthenticationException;
+  @NonNull Profile profile(final @NonNull Profile profile, final boolean secure) throws AuthenticationException;
 }

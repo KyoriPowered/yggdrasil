@@ -24,8 +24,8 @@
 package net.kyori.yggdrasil.profile;
 
 import com.google.common.base.MoreObjects;
-import net.kyori.blizzard.NonNull;
-import net.kyori.blizzard.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -42,8 +42,7 @@ public interface Profile {
    * @return the profile
    * @throws IllegalArgumentException if both {@code id} and {@code name} are null
    */
-  @NonNull
-  static Profile of(@Nullable final UUID id, @Nullable final String name) {
+  static @NonNull Profile of(final @Nullable UUID id, final @Nullable String name) {
     return new Impl(id, name);
   }
 
@@ -52,31 +51,28 @@ public interface Profile {
    *
    * @return the id
    */
-  @Nullable
-  UUID id();
+  @Nullable UUID id();
 
   /**
    * Gets the name of the profile.
    *
    * @return the name
    */
-  @Nullable
-  String name();
+  @Nullable String name();
 
   /**
    * Gets the properties of the profile.
    *
    * @return the properties
    */
-  @NonNull
-  ProfilePropertyMap properties();
+  @NonNull ProfilePropertyMap properties();
 
   /**
    * A simple implementation of a profile.
    */
   class Impl implements Profile {
-    @Nullable private final UUID id;
-    @Nullable private final String name;
+    private final @Nullable UUID id;
+    private final @Nullable String name;
     private final ProfilePropertyMap properties = new ProfilePropertyMap();
 
     /**
@@ -86,7 +82,7 @@ public interface Profile {
      * @param name the name
      * @throws IllegalArgumentException if both {@code id} and {@code name} are null
      */
-    protected Impl(@Nullable final UUID id, @Nullable final String name) {
+    protected Impl(final @Nullable UUID id, final @Nullable String name) {
       if(id == null && name == null) {
         throw new IllegalArgumentException("id and name are both null");
       }
@@ -94,21 +90,18 @@ public interface Profile {
       this.name = name;
     }
 
-    @Nullable
     @Override
-    public UUID id() {
+    public @Nullable UUID id() {
       return this.id;
     }
 
-    @Nullable
     @Override
-    public String name() {
+    public @Nullable String name() {
       return this.name;
     }
 
-    @NonNull
     @Override
-    public ProfilePropertyMap properties() {
+    public @NonNull ProfilePropertyMap properties() {
       return this.properties;
     }
 

@@ -30,7 +30,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import net.kyori.blizzard.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.lang.reflect.Type;
 import java.util.UUID;
@@ -39,8 +39,8 @@ public class ProfileSerializer implements JsonDeserializer<Profile>, JsonSeriali
   @Override
   public Profile deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
     final JsonObject object = (JsonObject) json;
-    @Nullable final UUID id = object.has("id") ? context.deserialize(object.get("id"), UUID.class) : null;
-    @Nullable final String name = object.has("name") ? object.getAsJsonPrimitive("name").getAsString() : null;
+    final @Nullable UUID id = object.has("id") ? context.deserialize(object.get("id"), UUID.class) : null;
+    final @Nullable String name = object.has("name") ? object.getAsJsonPrimitive("name").getAsString() : null;
     return Profile.of(id, name);
   }
 
@@ -48,12 +48,12 @@ public class ProfileSerializer implements JsonDeserializer<Profile>, JsonSeriali
   public JsonElement serialize(final Profile profile, final Type typeOfSrc, final JsonSerializationContext context) {
     final JsonObject object = new JsonObject();
 
-    @Nullable final UUID id = profile.id();
+    final @Nullable UUID id = profile.id();
     if(id != null) {
       object.add("id", context.serialize(id));
     }
 
-    @Nullable final String name = profile.name();
+    final @Nullable String name = profile.name();
     if(name != null) {
       object.addProperty("name", name);
     }

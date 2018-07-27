@@ -31,7 +31,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import net.kyori.blizzard.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -77,7 +77,7 @@ public class ProfilePropertyMapSerializer implements JsonDeserializer<ProfilePro
       object.addProperty("name", property.name());
       object.addProperty("value", property.value());
 
-      @Nullable final String signature = property.signature();
+      final @Nullable String signature = property.signature();
       if(signature != null) {
         object.addProperty("signature", signature);
       }
