@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.yggdrasil.profile;
+package net.kyori.yggdrasil.profile.serializer;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -31,7 +31,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import net.kyori.yggdrasil.profile.ProfileProperty;
+import net.kyori.yggdrasil.profile.ProfilePropertyMap;
 
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -39,7 +40,7 @@ import java.util.Map;
 public class ProfilePropertyMapSerializer implements JsonDeserializer<ProfilePropertyMap>, JsonSerializer<ProfilePropertyMap> {
   @Override
   public ProfilePropertyMap deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-    final ProfilePropertyMap result = new ProfilePropertyMap();
+    final ProfilePropertyMap result = ProfilePropertyMap.create();
 
     if(json instanceof JsonObject) {
       for(final Map.Entry<String, JsonElement> entry : ((JsonObject) json).entrySet()) {
@@ -72,17 +73,7 @@ public class ProfilePropertyMapSerializer implements JsonDeserializer<ProfilePro
     final JsonArray result = new JsonArray();
 
     for(final ProfileProperty property : src.values()) {
-      final JsonObject object = new JsonObject();
-
-      object.addProperty("name", property.name());
-      object.addProperty("value", property.value());
-
-      final @Nullable String signature = property.signature();
-      if(signature != null) {
-        object.addProperty("signature", signature);
-      }
-
-      result.add(object);
+      result.add(context.serialize(property));
     }
 
     return result;

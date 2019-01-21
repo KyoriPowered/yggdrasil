@@ -23,45 +23,75 @@
  */
 package net.kyori.yggdrasil.profile;
 
+import com.google.common.base.MoreObjects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
- * A profile.
+ * A simple implementation of a profile.
  */
-public interface Profile {
+public class ProfileImpl implements Profile {
+  private final @Nullable UUID id;
+  private final @Nullable String name;
+  private final ProfilePropertyMap properties = ProfilePropertyMap.create();
+
   /**
-   * Creates a profile from the specified id and name.
+   * Constructs a profile.
    *
    * @param id the id
    * @param name the name
-   * @return the profile
    * @throws IllegalArgumentException if both {@code id} and {@code name} are null
    */
-  static @NonNull Profile of(final @Nullable UUID id, final @Nullable String name) {
-    return new ProfileImpl(id, name);
+  protected ProfileImpl(final @Nullable UUID id, final @Nullable String name) {
+    if(id == null && name == null) {
+      throw new IllegalArgumentException("id and name are both null");
+    }
+    this.id = id;
+    this.name = name;
   }
 
-  /**
-   * Gets the id of the profile.
-   *
-   * @return the id
-   */
-  @Nullable UUID id();
+  @Override
+  public @Nullable UUID id() {
+    return this.id;
+  }
 
-  /**
-   * Gets the name of the profile.
-   *
-   * @return the name
-   */
-  @Nullable String name();
+  @Override
+  public @Nullable String name() {
+    return this.name;
+  }
 
-  /**
-   * Gets the properties of the profile.
-   *
-   * @return the properties
-   */
-  @NonNull ProfilePropertyMap properties();
+  @Override
+  public @NonNull ProfilePropertyMap properties() {
+    return this.properties;
+  }
+
+  @Override
+  public boolean equals(final Object other) {
+    if(this == other) {
+      return true;
+    }
+    if(!(other instanceof Profile)) {
+      return false;
+    }
+    final Profile that = (Profile) other;
+    return Objects.equals(this.id, that.id())
+      && Objects.equals(this.name, that.name());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.id, this.name);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+      .add("id", this.id)
+      .add("name", this.name)
+      .add("properties", this.properties)
+      .toString();
+  }
 }

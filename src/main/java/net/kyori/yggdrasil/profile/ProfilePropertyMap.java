@@ -23,15 +23,19 @@
  */
 package net.kyori.yggdrasil.profile;
 
-import com.google.common.collect.ForwardingMultimap;
-import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class ProfilePropertyMap extends ForwardingMultimap<String, ProfileProperty> {
-  private final Multimap<String, ProfileProperty> properties = LinkedHashMultimap.create();
-
-  @Override
-  protected Multimap<String, ProfileProperty> delegate() {
-    return this.properties;
+/**
+ * A profile property map.
+ */
+public interface ProfilePropertyMap extends Multimap<String, ProfileProperty> {
+  /**
+   * Creates a profile property map.
+   *
+   * @return a profile property map
+   */
+  static @NonNull ProfilePropertyMap create() {
+    return new ProfilePropertyMapImpl();
   }
 }
