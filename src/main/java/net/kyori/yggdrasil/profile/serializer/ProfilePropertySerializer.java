@@ -21,8 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.yggdrasil.profile;
+package net.kyori.yggdrasil.profile.serializer;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -30,34 +31,38 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import net.kyori.yggdrasil.profile.ProfileProperty;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.lang.reflect.Type;
-import java.util.UUID;
 
-public class ProfileSerializer implements JsonDeserializer<Profile>, JsonSerializer<Profile> {
+public class ProfilePropertySerializer implements JsonDeserializer<ProfileProperty>, JsonSerializer<ProfileProperty> {
   @Override
-  public Profile deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-    final JsonObject object = (JsonObject) json;
-    final @Nullable UUID id = object.has("id") ? context.deserialize(object.get("id"), UUID.class) : null;
-    final @Nullable String name = object.has("name") ? object.getAsJsonPrimitive("name").getAsString() : null;
-    return Profile.of(id, name);
+  public ProfileProperty deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+    final JsonObject object = json.getAsJsonObject();
+    final String name = object.getAsJsonPrimitive("name").getAsString();
+    final String value = object.getAsJsonPrimitive("value").getAsString();
+    if(object.has("signature")) {
+      return ProfileProperty.of(name, value, object.getAsJsonPrimitive("signature").getAsString());
+    } else {
+      return ProfileProperty.of(name, value);
+    }
   }
 
   @Override
-  public JsonElement serialize(final Profile profile, final Type typeOfSrc, final JsonSerializationContext context) {
+  public JsonElement serialize(final ProfileProperty src, final Type typeOfSrc, final JsonSerializationContext context) {
+    final JsonArray result = new JsonArray();
+
     final JsonObject object = new JsonObject();
 
-    final @Nullable UUID id = profile.id();
-    if(id != null) {
-      object.add("id", context.serialize(id));
+    object.addProperty("name", src.name());
+    object.addProperty("value", src.value());
+
+    final @Nullable String signature = src.signature();
+    if(signature != null) {
+      object.addProperty("signature", signature);
     }
 
-    final @Nullable String name = profile.name();
-    if(name != null) {
-      object.addProperty("name", name);
-    }
-
-    return object;
+    return result;
   }
 }

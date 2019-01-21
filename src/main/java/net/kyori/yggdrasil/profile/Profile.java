@@ -73,7 +73,7 @@ public interface Profile {
   class Impl implements Profile {
     private final @Nullable UUID id;
     private final @Nullable String name;
-    private final ProfilePropertyMap properties = new ProfilePropertyMap();
+    private final ProfilePropertyMap properties = new ProfilePropertyMapImpl();
 
     /**
      * Constructs a profile.

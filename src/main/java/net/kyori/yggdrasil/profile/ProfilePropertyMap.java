@@ -23,15 +23,7 @@
  */
 package net.kyori.yggdrasil.profile;
 
-import com.google.common.collect.ForwardingMultimap;
-import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 
-public class ProfilePropertyMap extends ForwardingMultimap<String, ProfileProperty> {
-  private final Multimap<String, ProfileProperty> properties = LinkedHashMultimap.create();
-
-  @Override
-  protected Multimap<String, ProfileProperty> delegate() {
-    return this.properties;
-  }
+public interface ProfilePropertyMap extends Multimap<String, ProfileProperty> {
 }

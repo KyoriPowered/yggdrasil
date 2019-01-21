@@ -21,35 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.yggdrasil.service.session.response;
+package net.kyori.yggdrasil.profile;
 
-import net.kyori.yggdrasil.profile.ProfilePropertyMap;
-import net.kyori.yggdrasil.service.response.Response;
+import com.google.common.collect.ForwardingMultimap;
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
 
-import java.util.UUID;
+public class ProfilePropertyMapImpl extends ForwardingMultimap<String, ProfileProperty> implements ProfilePropertyMap {
+  private final Multimap<String, ProfileProperty> properties = LinkedHashMultimap.create();
 
-/**
- * A response for a request submitted to end {@code hasJoined} endpoint.
- */
-public class HasJoinedResponse extends Response {
-  private UUID id;
-  private ProfilePropertyMap properties;
-
-  /**
-   * Gets the id.
-   *
-   * @return the id
-   */
-  public UUID id() {
-    return this.id;
-  }
-
-  /**
-   * Gets the properties.
-   *
-   * @return the properties
-   */
-  public ProfilePropertyMap properties() {
+  @Override
+  protected Multimap<String, ProfileProperty> delegate() {
     return this.properties;
   }
 }

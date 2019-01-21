@@ -24,6 +24,7 @@
 package net.kyori.yggdrasil.service.session;
 
 import net.kyori.yggdrasil.exception.AuthenticationException;
+import net.kyori.yggdrasil.exception.AuthenticationUnavailableException;
 import net.kyori.yggdrasil.profile.Profile;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -33,7 +34,7 @@ import java.net.InetAddress;
 /**
  * A session service.
  */
-public interface SessionService {
+public interface MinecraftSessionService {
   /**
    * Checks if the specified profile has joined a server.
    *
@@ -41,9 +42,9 @@ public interface SessionService {
    * @param serverId the server id
    * @param address the address connected from
    * @return the filled profile
-   * @throws AuthenticationException if an exception occurs while checking
+   * @throws AuthenticationUnavailableException if the session service is unavailable
    */
-  @Nullable Profile hasJoined(final @NonNull Profile profile, final @NonNull String serverId, final @Nullable InetAddress address) throws AuthenticationException;
+  @Nullable Profile hasJoined(final @NonNull Profile profile, final @NonNull String serverId, final @Nullable InetAddress address) throws AuthenticationUnavailableException;
 
   /**
    * Gets a filled profile.
