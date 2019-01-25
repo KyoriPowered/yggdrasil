@@ -26,11 +26,8 @@ repositories {
 }
 
 dependencies {
-  compile 'com.github.ben-manes.caffeine:caffeine:2.5.2'
-  compile 'com.google.code.gson:gson:2.8.0'
   compile 'com.google.guava:guava:21.0'
-  compile 'com.squareup.okhttp3:okhttp:3.10.0-SNAPSHOT'
-  compile 'org.checkerframework:checker-qual:2.4.0'
+  compile 'org.checkerframework:checker-qual:2.5.8'
   testCompile 'org.junit.jupiter:junit-jupiter-api:5.1.0'
   testCompile 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
 }
