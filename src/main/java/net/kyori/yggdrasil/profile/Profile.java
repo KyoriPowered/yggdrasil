@@ -49,14 +49,14 @@ public interface Profile {
    *
    * @return the id
    */
-  @Nullable UUID id();
+  /* @Nullable */ UUID id();
 
   /**
    * Gets the name of the profile.
    *
    * @return the name
    */
-  @Nullable String name();
+  /* @Nullable */ String name();
 
   /**
    * Gets the properties of the profile.

@@ -54,12 +54,12 @@ public class ProfileImpl implements Profile {
   }
 
   @Override
-  public @Nullable UUID id() {
+  public /* @Nullable */ UUID id() {
     return this.id;
   }
 
   @Override
-  public @Nullable String name() {
+  public /* @Nullable */ String name() {
     return this.name;
   }
 
